@@ -250,7 +250,7 @@ export const deleteVideo = async (req: Request, res: Response) => {
 
   try {
     // Delete the document
-    const deletedVid = await NotesDoc.findByIdAndDelete(videoId);
+    const deletedVid = await Video.findByIdAndDelete(videoId);
     if (!deletedVid) {
       res.status(404).json({
         success: false,
