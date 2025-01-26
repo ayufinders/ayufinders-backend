@@ -20,7 +20,7 @@ router.delete("/:subTopicId", authenticateJWT, deleteSubTopicHandler);
 router.put("/:subTopicId", authenticateJWT, updateSubTopicHandler);
 router.put('/video/upload/:subTopicId', authenticateJWT, uploadVideo)
 router.put('/docs/upload/:subTopicId', authenticateJWT, uploadDocs)
-router.put('/video/delete/:subTopicId/:videoId', authenticateJWT, deleteVideo)
-router.put('/docs/delete/:subTopicId/:docId', authenticateJWT, deleteDoc)
+router.delete('/video/delete/:subTopicId/:videoId', authenticateJWT, deleteVideo)
+router.delete('/docs/delete/:subTopicId/:docId', authenticateJWT, deleteDoc)
 
 export default router;
