@@ -130,7 +130,7 @@ export const deleteSubTopicHandler = async (req: Request, res: Response) => {
 };
 
 export const uploadVideo = async (req: Request, res: Response) => {
-  const { key, name, description, createdBy, thumbnailKey } = req.body;
+  const { key, name, description, createdBy, thumbnailKey, language } = req.body;
   const { subTopicId } = req.params;
 
   const url = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`
@@ -144,7 +144,8 @@ export const uploadVideo = async (req: Request, res: Response) => {
       url,
       thumbnailUrl,
       key,
-      subTopicId
+      subTopicId,
+      language
     })
 
     await SubTopic.findByIdAndUpdate(
@@ -159,7 +160,7 @@ export const uploadVideo = async (req: Request, res: Response) => {
 }
 
 export const uploadDocs = async (req: Request, res: Response) => {
-  const { key, name, description, createdBy, thumbnailKey } = req.body;
+  const { key, name, description, createdBy, thumbnailKey, language } = req.body;
   const { subTopicId } = req.params;
 
   const url = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`
@@ -173,7 +174,8 @@ export const uploadDocs = async (req: Request, res: Response) => {
       url,
       thumbnailUrl,
       key,
-      subTopicId
+      subTopicId,
+      language
     })
 
     await SubTopic.findByIdAndUpdate(

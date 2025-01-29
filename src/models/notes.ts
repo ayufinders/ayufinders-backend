@@ -29,6 +29,11 @@ const NotesDocSchema = new mongoose.Schema({
   key: {
     type: String,
     required: true
+  },
+  language: {
+    type: String,
+    required: true,
+    enum: ['hi', 'eng']
   }
 }, {
   timestamps: true,  

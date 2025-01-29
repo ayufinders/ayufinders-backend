@@ -31,6 +31,11 @@ const QuestionPaperSchema = new mongoose.Schema({
   key: {
     type: String,
     required: true
+  },
+  university: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "University",
+    required: true
   }
 }, {
   timestamps: true,  

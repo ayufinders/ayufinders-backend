@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import QuestionPaper from "../models/questionPaper.js";
 import Subject from "../models/subject.js";
+import University from "../models/university.js";
 
 export const getQuestionPapersBySubjectIdHandler = async (req: Request, res: Response) => {
   const { subjectId } = req.params;
@@ -17,7 +18,10 @@ export const getQuestionPapersBySubjectIdHandler = async (req: Request, res: Res
       return;
     }
 
-    const papers = await QuestionPaper.find({ _id: { $in: subject.questionPaper } }).populate('createdBy');
+    const papers = await QuestionPaper.find({ _id: { $in: subject.questionPaper } })
+      .populate('university')
+      .populate('createdBy')
+      .exec();
 
     if (!papers || papers.length === 0) {
       res.status(404).json({ success: false, message: "Papers not found" });
@@ -32,7 +36,7 @@ export const getQuestionPapersBySubjectIdHandler = async (req: Request, res: Res
 
 
 export const uploadQuestionPaper = async (req: Request, res: Response) => {
-  const { key, name, description, createdBy, thumbnailKey, year } = req.body;
+  const { key, name, description, createdBy, thumbnailKey, year, university } = req.body;
   const { subjectId } = req.params;
 
   const url = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`
@@ -47,12 +51,18 @@ export const uploadQuestionPaper = async (req: Request, res: Response) => {
       thumbnailUrl,
       key,
       subjectId,
-      year
+      year,
+      university
     })
 
     await Subject.findByIdAndUpdate(
       subjectId,
       { $push: { questionPaper: questionPaper._id } }
+    )
+
+    await University.findByIdAndUpdate(
+      university,
+      { $push: { papers: questionPaper._id } }
     )
 
     res.status(200).json({success: true, message: "Question paper added successfully."})
@@ -89,6 +99,11 @@ export const deleteQuestionPaper = async (req: Request, res: Response) => {
       { $pull: { questionPaper: questionPaperId } },
       { new: true } 
     );
+
+    await University.findByIdAndUpdate(
+      deletedDoc.university,
+      { $pull: { papers: questionPaperId } }
+    )
 
     if (!updatedSubject) {
       res.status(404).json({
