@@ -71,6 +71,36 @@ export const uploadQuestionPaper = async (req: Request, res: Response) => {
   }
 }
 
+export const updateQuestionPaper = async (req: Request, res: Response) => {
+  const { name, description, year, month, university } = req.body;
+  const { questionPaperId } = req.params;
+
+  try{
+    const questionPaper = await QuestionPaper.findById(questionPaperId)
+    if(!questionPaper){
+      res.status(404).json({success: false, message: "Question paper not found."})
+    }
+
+    await QuestionPaper.findByIdAndUpdate(
+      questionPaperId, {
+        name, 
+        description,
+        year,
+        month,
+        university
+      }, 
+      {
+        runValidators: true
+      }
+    )
+    
+    res.status(200).json({success: true, message: "Question paper updated successfully."})
+  } catch(e){
+    res.status(500).json({success: false, message: "Server error"})
+  }
+}
+
+
 export const deleteQuestionPaper = async (req: Request, res: Response) => {
   const { subjectId, questionPaperId } = req.params;
 

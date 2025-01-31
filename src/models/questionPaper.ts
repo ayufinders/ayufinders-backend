@@ -24,6 +24,10 @@ const QuestionPaperSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Admin"
   },
+  month: {
+    type: String,
+    enum: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  },
   year: {
     type: String,
     required: true
