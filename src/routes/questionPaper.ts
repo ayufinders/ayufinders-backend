@@ -2,6 +2,7 @@ import express from "express";
 import {
   deleteQuestionPaper,
   getQuestionPapersBySubjectIdHandler,
+  updateQuestionPaper,
   uploadQuestionPaper,
 } from "../controllers/questionPaper.js";
 import { authenticateJWT } from "../middleware/index.js";
@@ -13,6 +14,11 @@ router.delete(
   "/:subjectId/:questionPaperId",
   authenticateJWT,
   deleteQuestionPaper
+);
+router.put(
+  "/:questionPaperId",
+  authenticateJWT,
+  updateQuestionPaper
 );
 
 export default router;
