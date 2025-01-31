@@ -36,7 +36,7 @@ export const getQuestionPapersBySubjectIdHandler = async (req: Request, res: Res
 
 
 export const uploadQuestionPaper = async (req: Request, res: Response) => {
-  const { key, name, description, createdBy, thumbnailKey, year, university } = req.body;
+  const { key, name, description, createdBy, thumbnailKey, year, university, month } = req.body;
   const { subjectId } = req.params;
 
   const url = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`
@@ -52,6 +52,7 @@ export const uploadQuestionPaper = async (req: Request, res: Response) => {
       key,
       subjectId,
       year,
+      month,
       university
     })
 
