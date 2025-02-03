@@ -45,7 +45,7 @@ export const adminLogoutHandler = (req: Request, res: Response) => {
   // Clear the authentication cookie
   res.setHeader(
     'Set-Cookie',
-    'authToken=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=None; domain=.ayufinders.com'
+    'authToken=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=None; Domain=.ayufinders.com'
   );
   // Send response to confirm logout
   res.status(200).json({ message: 'Logout successful' });

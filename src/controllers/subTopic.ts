@@ -11,7 +11,7 @@ export const getSubTopicsBySubjectTopicIdHandler = async (req: Request, res: Res
   const { subjectTopicId } = req.params;
 
   try {
-    const subTopics = await SubTopic.find({ subjectTopicId: subjectTopicId });
+    const subTopics = await SubTopic.find({ subjectTopicId: subjectTopicId }).populate("tagId");
 
     if (!subTopics) {
       res.status(404).json({ success: false, message: "Sub Topics not found" });
