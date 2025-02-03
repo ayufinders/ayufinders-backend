@@ -24,7 +24,7 @@ export const adminSigninHandler = async (req: Request, res: Response) => {
     const token = await jwt.sign({ admin }, jwtsecret as string);
 
     // Set the token in the cookie
-    res.setHeader('Set-Cookie', `authToken=${token}; Path=/; Max-Age=86400; HttpOnly; Secure; SameSite=None; domain=.ayufinders.com`);
+    res.setHeader('Set-Cookie', `authToken=${token}; Path=/; Max-Age=86400; HttpOnly; SameSite=Lax;`);
     res.status(200).json({
       message: "Admin signed in",
       admin: admin,
@@ -45,7 +45,7 @@ export const adminLogoutHandler = (req: Request, res: Response) => {
   // Clear the authentication cookie
   res.setHeader(
     'Set-Cookie',
-    'authToken=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=None; Domain=.ayufinders.com'
+    'authToken=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax;'
   );
   // Send response to confirm logout
   res.status(200).json({ message: 'Logout successful' });

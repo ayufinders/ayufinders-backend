@@ -22,7 +22,7 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(cors({
-  origin: 'https://dashboard.ayufinders.com', 
+  origin: 'http://localhost:3001', 
   credentials: true, 
 }));
 app.use((req, res, next) => {

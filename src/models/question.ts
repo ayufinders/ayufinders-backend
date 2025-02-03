@@ -7,7 +7,6 @@ const QuestionSchema = new mongoose.Schema({
   },
   textHindi: {
     type: String,
-    required: true,
   },
   options: [
     {
@@ -21,7 +20,6 @@ const QuestionSchema = new mongoose.Schema({
     {
       text: {
         type: String,
-        required: true,
       }
     }
   ],
