@@ -40,7 +40,18 @@ export const updateTagHandler = async (req: Request, res: Response) => {
 
 export const getTagsHandler = async (req: Request, res: Response) => {
   try {
-    const tags = await Tag.find().populate("createdBy");
+    let tags = await Tag.aggregate([
+      {
+        $addFields: { questionsCount: { $size: "$questions" } }
+      },
+      {
+        $sort: { questionsCount: -1, name: 1 }
+      }
+    ]);
+    
+    // Populate after aggregation
+    tags = await Tag.populate(tags, { path: "createdBy" });
+    
     res.status(200).json({ success: true, tags: tags });
 
   } catch (error) {

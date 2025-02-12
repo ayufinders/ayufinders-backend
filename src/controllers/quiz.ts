@@ -8,7 +8,14 @@ export const getAllQuizCategoriesHandler = async (
   res: Response
 ) => {
   try {
-    const quizCategories = await Category.find();
+    const quizCategories = await Category.aggregate([
+      {
+        $addFields: { questionCount: { $size: "$questions" } }
+      }, 
+      {
+        $sort: { questionCount: -1 }
+      }
+    ]);
     if (!quizCategories) {
       res.status(404).json({ success: false, message: "Categories not found" });
     }
