@@ -30,7 +30,7 @@ export const signinHandler = async (req: Request, res: Response) => {
       token: token,
     });
   } else {
-    res.status(200).json({
+    res.status(404).json({
       message: "Incorrect email or password",
       user: null,
       token: null,

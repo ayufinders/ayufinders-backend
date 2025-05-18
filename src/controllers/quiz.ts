@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Category from "../models/quizCategory.js";
 import Question from "../models/question.js";
 import Tag from "../models/tag.js";
+import { logAdminActivity } from "../utils/adminActivity.js";
 
 export const getAllQuizCategoriesHandler = async (
   req: Request,
@@ -94,6 +95,11 @@ export const addQuestionHandler = async (req: Request, res: Response) => {
       tagId,
       createdBy
     });
+
+    await logAdminActivity(
+      createdBy,
+      "mcq"
+    );
 
     // Add the question to the category
     category.questions.push(question._id);

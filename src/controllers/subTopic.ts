@@ -5,6 +5,7 @@ import SubTopic from "../models/subTopic.js";
 import Video from "../models/video.js";
 import dotnev from "dotenv"
 import NotesDoc from "../models/notes.js";
+import { logAdminActivity } from "../utils/adminActivity.js";
 dotnev.config()
 
 export const getSubTopicsBySubjectTopicIdHandler = async (req: Request, res: Response) => {
@@ -153,6 +154,11 @@ export const uploadVideo = async (req: Request, res: Response) => {
       { $push: { videos: newVideo._id } }
     )
 
+    await logAdminActivity(
+      createdBy,
+      "video"
+    );
+
     res.status(200).json({success: true, message: "Video url added successfully."})
   } catch(error){
     res.status(500).json({success: false, message: "Server error", error})
@@ -182,6 +188,11 @@ export const uploadDocs = async (req: Request, res: Response) => {
       subTopicId,
       { $push: { notes: newDoc._id } }
     )
+
+    await logAdminActivity(
+      createdBy,
+      "note"
+    );
 
     res.status(200).json({success: true, message: "Notes url added successfully."})
   } catch(e){

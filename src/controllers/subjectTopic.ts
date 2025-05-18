@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import SubjectTopic from "../models/subjectTopic.js";
-import Question from "../models/question.js";
 import Paper from "../models/paper.js";
 import PaperSection from "../models/paperSection.js";
 

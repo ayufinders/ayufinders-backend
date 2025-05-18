@@ -15,16 +15,32 @@ import subTopicHandler from "./routes/subTopic.js";
 import awsRouter from "./routes/aws.js";
 import questionPaperRouter from "./routes/questionPaper.js";
 import universityRouter from "./routes/university.js"
+import adminActivityRouter from "./routes/adminActivity.js";
 
 // CONFIG
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+const allowedOrigins = [
+  'exp://192.168.29.171:8081',
+  'http://localhost:3001',
+  'https://dashboard.ayufinders.com',
+];
+
 app.use(cors({
-  origin: 'https://dashboard.ayufinders.com', 
-  credentials: true, 
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
 }));
+
 app.use((req, res, next) => {
   res.setHeader("Cross-Origin-Opener-Policy", "same-origin"); // Or 'same-origin-allow-popups' if needed
   res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
@@ -46,6 +62,7 @@ app.use("/api/v1/subTopic", subTopicHandler);
 app.use("/api/v1/questionPaper", questionPaperRouter);
 app.use("/api/v1/universities", universityRouter);
 app.use("/api/v1/aws", awsRouter);
+app.use("/api/v1/adminActivity", adminActivityRouter);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

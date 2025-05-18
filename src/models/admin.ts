@@ -17,6 +17,10 @@ const AdminSchema = new mongoose.Schema({
   access: {
     type: String,
     enum: ['full', 'limited'],
+  },
+  subjectId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Subject",
   }
 });
 
