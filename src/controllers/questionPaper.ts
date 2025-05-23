@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import QuestionPaper from "../models/questionPaper.js";
 import Subject from "../models/subject.js";
 import University from "../models/university.js";
+import { logAdminActivity } from "../utils/adminActivity.js";
 
 export const getQuestionPapersBySubjectIdHandler = async (req: Request, res: Response) => {
   const { subjectId } = req.params;
@@ -54,7 +55,12 @@ export const uploadQuestionPaper = async (req: Request, res: Response) => {
       year,
       month,
       university
-    })
+    });
+
+    await logAdminActivity(
+      createdBy,
+      "paper",
+    );
 
     await Subject.findByIdAndUpdate(
       subjectId,
