@@ -62,6 +62,8 @@ export const addQuestionHandler = async (req: Request, res: Response) => {
     explanationHindi,
     tagId,
     createdBy,
+    subjectId,
+    subTopicId
   } = req.body;
 
   if (!categoryId || !text || !options || !tagId || options.length < 4) {
@@ -93,7 +95,9 @@ export const addQuestionHandler = async (req: Request, res: Response) => {
       explanation,
       explanationHindi,
       tagId,
-      createdBy
+      createdBy,
+      subjectId,
+      subTopicId
     });
 
     await logAdminActivity(

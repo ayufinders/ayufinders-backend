@@ -16,6 +16,7 @@ import awsRouter from "./routes/aws.js";
 import questionPaperRouter from "./routes/questionPaper.js";
 import universityRouter from "./routes/university.js"
 import adminActivityRouter from "./routes/adminActivity.js";
+import questionRouter from "./routes/questions.js"
 
 // CONFIG
 dotenv.config();
@@ -53,6 +54,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/quiz", quizRouter);
+app.use("/api/v1/question", questionRouter);
 app.use("/api/v1/tag", tagRouter);
 app.use("/api/v1/subject", subjectRouter);
 app.use("/api/v1/paper", paperRouter);

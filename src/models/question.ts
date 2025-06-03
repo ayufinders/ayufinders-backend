@@ -51,7 +51,14 @@ const QuestionSchema = new mongoose.Schema({
       type: String
     } 
   },
-
+  subjectId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Subject"
+  },
+  subTopicId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "SubTopic"
+  },
   categoryId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category"

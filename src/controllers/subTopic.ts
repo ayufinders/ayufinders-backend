@@ -53,8 +53,7 @@ export const getSubTopicsInfoByIdHandler = async (req: Request, res: Response) =
       return;
     }
 
-    // Fetch questions related to the tags in this SubjectTopic
-    const questions = await Question.find({ tagId: { $in: subTopic.tagId } }).populate('tagId').populate('createdBy').exec();
+    const questions = await Question.find({ subTopicId: subTopicId }).populate('tagId').populate('createdBy').exec();
 
     res.status(200).json({ success: true, data: {subTopic, questions} });
   } catch (error) {
