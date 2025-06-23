@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import SubjectTopic from "../models/subjectTopic.js";
-import Question from "../models/question.js";
-import SubTopic from "../models/subTopic.js";
-import Video from "../models/video.js";
+import SubjectTopic from "../../models/syllabus/subjectTopic.js";
+import Question from "../../models/question.js";
+import SubTopic from "../../models/syllabus/subTopic.js";
+import Video from "../../models/video.js";
 import dotnev from "dotenv"
-import NotesDoc from "../models/notes.js";
-import { logAdminActivity } from "../utils/adminActivity.js";
+import NotesDoc from "../../models/notes.js";
+import { logAdminActivity } from "../../utils/adminActivity.js";
 dotnev.config()
 
 export const getSubTopicsBySubjectTopicIdHandler = async (req: Request, res: Response) => {

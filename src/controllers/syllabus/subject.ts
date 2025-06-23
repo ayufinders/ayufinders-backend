@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Subject from "../models/subject.js";
+import Subject from "../../models/syllabus/subject.js";
 
 export const getAllSubjectsHandler = async (req: Request, res: Response) => {
   const {year} = req.params

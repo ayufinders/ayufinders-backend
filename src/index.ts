@@ -1,22 +1,24 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import 'module-alias/register.js';
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import userRouter from "./routes/user.js";
-import quizRouter from "./routes/quiz.js";
 import tagRouter from "./routes/tag.js";
-import subjectRouter from "./routes/subject.js";
-import paperRouter from "./routes/paper.js";
-import paperSectionRouter from "./routes/paperSection.js";
-import subjectTopicHandler from "./routes/subjectTopic.js";
+import subjectRouter from "./routes/syllabus/subject.js";
+import paperRouter from "./routes/syllabus/paper.js";
+import paperSectionRouter from "./routes/syllabus/paperSection.js";
+import subjectTopicHandler from "./routes/syllabus/subjectTopic.js";
 import adminRouter from "./routes/admin.js";
-import subTopicHandler from "./routes/subTopic.js";
+import subTopicHandler from "./routes/syllabus/subTopic.js";
 import awsRouter from "./routes/aws.js";
 import questionPaperRouter from "./routes/questionPaper.js";
 import universityRouter from "./routes/university.js"
 import adminActivityRouter from "./routes/adminActivity.js";
 import questionRouter from "./routes/questions.js"
+import bookRouter from "./routes/reference/book.js"; 
+import bookSectionRouter from "./routes/reference/bookSection.js"; 
 
 // CONFIG
 dotenv.config();
@@ -24,7 +26,7 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 const allowedOrigins = [
-  'exp://192.168.29.171:8081',
+  'http://192.168.29.171:8081',
   'http://localhost:3001',
   'https://dashboard.ayufinders.com',
 ];
@@ -43,7 +45,7 @@ app.use(cors({
 }));
 
 app.use((req, res, next) => {
-  res.setHeader("Cross-Origin-Opener-Policy", "same-origin"); // Or 'same-origin-allow-popups' if needed
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin"); 
   res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
   next();
 });
@@ -53,7 +55,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // ROUTES
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/admin", adminRouter);
-app.use("/api/v1/quiz", quizRouter);
 app.use("/api/v1/question", questionRouter);
 app.use("/api/v1/tag", tagRouter);
 app.use("/api/v1/subject", subjectRouter);
@@ -65,6 +66,8 @@ app.use("/api/v1/questionPaper", questionPaperRouter);
 app.use("/api/v1/universities", universityRouter);
 app.use("/api/v1/aws", awsRouter);
 app.use("/api/v1/adminActivity", adminActivityRouter);
+app.use("/api/v1/books", bookRouter);
+app.use("/api/v1/bookSections", bookSectionRouter);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

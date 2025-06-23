@@ -1,9 +1,7 @@
 import { Request, Response } from "express";
-import Category from "../models/quizCategory.js";
 import Question from "../models/question.js";
-import Tag from "../models/tag.js";
 import { logAdminActivity } from "../utils/adminActivity.js";
-import SubTopic from "../models/subTopic.js";
+import SubTopic from "../models/syllabus/subTopic.js";
 
 export const addQuestionHandler = async (req: Request, res: Response) => {
   const { subTopicId } = req.params;

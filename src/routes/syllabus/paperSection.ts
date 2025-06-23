@@ -5,8 +5,8 @@ import {
   getPaperSectionInfoByIdHandler,
   getPaperSectionsByPaperIdHandler,
   updatePaperSectionHandler,
-} from "../controllers/paperSection.js";
-import { authenticateJWT } from "../middleware/index.js";
+} from "../../controllers/syllabus/paperSection.js";
+import { authenticateJWT } from "../../middleware/index.js";
 const router = express.Router();
 
 router.get("/:paperId", authenticateJWT, getPaperSectionsByPaperIdHandler);

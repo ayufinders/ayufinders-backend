@@ -5,8 +5,8 @@ import {
   deleteSubjectHandler,
   getAllSubjectsHandler,
   updateSubjectHandler,
-} from "../controllers/subject.js";
-import { authenticateJWT } from "../middleware/index.js";
+} from "../../controllers/syllabus/subject.js";
+import { authenticateJWT } from "../../middleware/index.js";
 
 router.get("/:year", authenticateJWT, getAllSubjectsHandler);
 router.post("/", authenticateJWT, addSubjectHandler);

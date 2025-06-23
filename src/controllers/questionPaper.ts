@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import QuestionPaper from "../models/questionPaper.js";
-import Subject from "../models/subject.js";
+import Subject from "../models/syllabus/subject.js";
 import University from "../models/university.js";
 import { logAdminActivity } from "../utils/adminActivity.js";
 

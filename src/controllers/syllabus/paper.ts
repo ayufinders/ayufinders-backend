@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import Paper from "../models/paper.js";
-import Subject from "../models/subject.js";
+import Paper from "../../models/syllabus/paper.js";
+import Subject from "../../models/syllabus/subject.js";
 
 export const getPapersBySubjectIdHandler = async (req: Request, res: Response) => {
   const { subjectId } = req.params;

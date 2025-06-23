@@ -5,8 +5,8 @@ import {
   getPaperInfoByIdHandler,
   getPapersBySubjectIdHandler,
   updatePaperHandler,
-} from "../controllers/paper.js";
-import { authenticateJWT } from "../middleware/index.js";
+} from "../../controllers/syllabus/paper.js";
+import { authenticateJWT } from "../../middleware/index.js";
 const router = express.Router();
 
 router.get("/:subjectId", authenticateJWT, getPapersBySubjectIdHandler);

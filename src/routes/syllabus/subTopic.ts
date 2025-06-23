@@ -10,8 +10,8 @@ import {
   updateSubTopicHandler,
   uploadDocs,
   uploadVideo,
-} from "../controllers/subTopic.js";
-import { authenticateJWT } from "../middleware/index.js";
+} from "../../controllers/syllabus/subTopic.js";
+import { authenticateJWT } from "../../middleware/index.js";
 
 router.get("/topics/:subjectTopicId", authenticateJWT, getSubTopicsBySubjectTopicIdHandler);
 router.get("/:subTopicId", authenticateJWT, getSubTopicsInfoByIdHandler);

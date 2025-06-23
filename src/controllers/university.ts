@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Tag from "../models/tag.js";
 import Question from "../models/question.js";
-import SubTopic from "../models/subTopic.js";
+import SubTopic from "../models/syllabus/subTopic.js";
 import University from "../models/university.js";
 import QuestionPaper from "../models/questionPaper.js";
 

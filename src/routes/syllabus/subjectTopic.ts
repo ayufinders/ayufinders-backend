@@ -5,8 +5,8 @@ import {
   deleteSubjectTopicHandler,
   getTopicsByPaperIdHandler,
   updateSubjectTopicHandler,
-} from "../controllers/subjectTopic.js";
-import { authenticateJWT } from "../middleware/index.js";
+} from "../../controllers/syllabus/subjectTopic.js";
+import { authenticateJWT } from "../../middleware/index.js";
 
 router.get("/topics/:paperId", authenticateJWT, getTopicsByPaperIdHandler);
 router.post("/", authenticateJWT, addSubjectTopicHandler);
