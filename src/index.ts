@@ -53,7 +53,7 @@ const app = express();
 
 
 app.use(cors({
-  origin: 'https://dashboard.ayufinders.com',
+  origin: '*',
   credentials: true
 }));
 
