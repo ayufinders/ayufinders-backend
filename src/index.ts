@@ -4,6 +4,7 @@ import cors from "cors";
 import 'module-alias/register.js';
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
+
 import userRouter from "./routes/user.js";
 import tagRouter from "./routes/tag.js";
 import subjectRouter from "./routes/syllabus/subject.js";
@@ -14,27 +15,27 @@ import adminRouter from "./routes/admin.js";
 import subTopicHandler from "./routes/syllabus/subTopic.js";
 import awsRouter from "./routes/aws.js";
 import questionPaperRouter from "./routes/questionPaper.js";
-import universityRouter from "./routes/university.js"
+import universityRouter from "./routes/university.js";
 import adminActivityRouter from "./routes/adminActivity.js";
-import questionRouter from "./routes/questions.js"
-import bookRouter from "./routes/reference/book.js"; 
-import bookSectionRouter from "./routes/reference/bookSection.js"; 
+import questionRouter from "./routes/questions.js";
+import bookRouter from "./routes/reference/book.js";
+import bookSectionRouter from "./routes/reference/bookSection.js";
 
 // CONFIG
 dotenv.config();
 
 const app = express();
-app.use(express.json());
+
+// Allowed Origins
 const allowedOrigins = [
   'http://192.168.29.171:8081',
   'http://localhost:3001',
   'https://dashboard.ayufinders.com',
 ];
 
-app.use(cors({
+const corsOptions: cors.CorsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl)
-    if (!origin) return callback(null, true);
+    if (!origin) return callback(null, true); // allow non-browser requests
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     } else {
@@ -42,13 +43,22 @@ app.use(cors({
     }
   },
   credentials: true,
-}));
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
 
+// CORS Middleware
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // 🔥 Preflight requests
+
+// Optional headers
 app.use((req, res, next) => {
   res.setHeader("Cross-Origin-Opener-Policy", "same-origin"); 
   res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
   next();
 });
+
+app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -69,6 +79,7 @@ app.use("/api/v1/adminActivity", adminActivityRouter);
 app.use("/api/v1/books", bookRouter);
 app.use("/api/v1/bookSections", bookSectionRouter);
 
+// Server + DB
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
