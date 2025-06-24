@@ -12,7 +12,21 @@ export const getBookSectionsHandler = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ success: false, message: "Server Error", error });
   }
-};  
+}; 
+
+export const getBookSectionsByBookIdHandler = async (req: Request, res: Response) => {
+  try {
+    const { bookId } = req.params;
+    const sections = await BookSection.find({ bookId });
+    if (!sections) {
+      res.status(404).json({ success: false, message: "Sections not found" });
+      return;
+    }
+    res.status(200).json({ success: true, data: sections });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server Error", error });
+  }
+}; 
 
 export const addBookSectionHandler = async (req: Request, res: Response) => {
   const { name, description, bookId } = req.body;
