@@ -27,29 +27,35 @@ dotenv.config();
 const app = express();
 
 // Allowed Origins
-const allowedOrigins = [
-  'http://192.168.29.171:8081',
-  'http://localhost:3001',
-  'https://dashboard.ayufinders.com',
-];
+// const allowedOrigins = [
+//   'http://192.168.29.171:8081',
+//   'http://localhost:3001',
+//   'https://dashboard.ayufinders.com',
+// ];
 
-const corsOptions: cors.CorsOptions = {
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true); // allow non-browser requests
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    } else {
-      return callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-};
+// const corsOptions: cors.CorsOptions = {
+//   origin: function (origin, callback) {
+//     if (!origin) return callback(null, true); 
+//     if (allowedOrigins.includes(origin)) {
+//       return callback(null, true);
+//     } else {
+//       return callback(new Error('Not allowed by CORS'));
+//     }
+//   },
+//   credentials: true,
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization'],
+// };
 
-// CORS Middleware
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // 🔥 Preflight requests
+// // CORS Middleware
+// app.use(cors(corsOptions));
+// app.options('*', cors(corsOptions)); 
+
+
+app.use(cors({
+  origin: 'https://dashboard.ayufinders.com',
+  credentials: true
+}));
 
 // Optional headers
 app.use((req, res, next) => {
