@@ -67,6 +67,14 @@ const QuestionSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Tag"
   }],
+  bookId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Book"
+  },
+  sectionId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "BookSection"
+  },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Admin"

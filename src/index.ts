@@ -80,7 +80,7 @@ app.use("/api/v1/bookSections", bookSectionRouter);
 
 // Server + DB
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
+app.listen(PORT as number, () => {
   console.log(`Server listening on ${PORT}`);
 
   mongoose

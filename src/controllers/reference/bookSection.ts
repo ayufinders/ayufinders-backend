@@ -29,14 +29,14 @@ export const getBookSectionsByBookIdHandler = async (req: Request, res: Response
 }; 
 
 export const addBookSectionHandler = async (req: Request, res: Response) => {
-  const { name, description, bookId } = req.body;
-  if (!name || !bookId) {
+  const { nameEng, nameHindi, description, bookId } = req.body;
+  if (!nameEng || !nameHindi || !bookId) {
     res.status(400).json({ success: false, message: "All fields are required" });
     return;
   }
   try {
     
-    const newSection = await BookSection.create({ name, description, bookId });
+    const newSection = await BookSection.create({ nameEng, nameHindi, description, bookId });
     res.status(201).json({ success: true, data: newSection });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server Error", error });
@@ -44,7 +44,7 @@ export const addBookSectionHandler = async (req: Request, res: Response) => {
 };
 
 export const updateBookSectionHandler = async (req: Request, res: Response) => {
-  const { name, description } = req.body;
+  const { nameEng, nameHindi, description } = req.body;
   const { bookSectionId } = req.params;
 
   try {
@@ -55,7 +55,7 @@ export const updateBookSectionHandler = async (req: Request, res: Response) => {
     }
     const updatedSection = await BookSection.findByIdAndUpdate(
       bookSectionId,
-      { name, description },
+      { nameEng, nameHindi, description },
       { new: true }
     );
     res.status(200).json({ success: true, data: updatedSection });

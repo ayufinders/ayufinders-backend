@@ -15,15 +15,15 @@ export const getBooksHandler = async (req: Request, res: Response) => {
 };
 
 export const addBookHandler = async (req: Request, res: Response) => {
-  const { name, description } = req.body;
+  const { nameEng, nameHindi, description } = req.body;
 
   try {
-    const existingBook = await Book.findOne({ name });
+    const existingBook = await Book.findOne({ nameEng });
     if (existingBook) {
       res.status(200).json({ success: false, data: "Book already exists." });
       return;
     }
-    const newBook = await Book.create({ name, description });
+    const newBook = await Book.create({ nameEng, nameHindi, description });
     res.status(201).json({ success: true, data: newBook });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server Error", error });
@@ -31,7 +31,7 @@ export const addBookHandler = async (req: Request, res: Response) => {
 };
 
 export const updateBookHandler = async (req: Request, res: Response) => {
-  const { name, description } = req.body;
+  const { nameEng, nameHindi, description } = req.body;
   const { bookId } = req.params;
 
   try {
@@ -41,7 +41,8 @@ export const updateBookHandler = async (req: Request, res: Response) => {
       return;
     }
     const updatedBook = await Book.findByIdAndUpdate(bookId, {
-      name,
+      nameEng,
+      nameHindi,
       description,
     }, { new: true });
     res.status(200).json({ success: true, data: updatedBook });

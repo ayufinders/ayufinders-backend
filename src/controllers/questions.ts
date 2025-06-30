@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import Question from "../models/question.js";
 import { logAdminActivity } from "../utils/adminActivity.js";
 import SubTopic from "../models/syllabus/subTopic.js";
+import SubjectTopic from "../models/syllabus/subjectTopic.js";
+import mongoose from "mongoose";
 
 export const addQuestionHandler = async (req: Request, res: Response) => {
   const { subTopicId } = req.params;
@@ -18,6 +20,8 @@ export const addQuestionHandler = async (req: Request, res: Response) => {
     tagId,
     createdBy,
     subjectId,
+    bookId,
+    sectionId
   } = req.body;
 
   if (!subTopicId || !text || !options || !tagId || options.length < 4) {
@@ -51,6 +55,8 @@ export const addQuestionHandler = async (req: Request, res: Response) => {
       createdBy,
       subjectId,
       subTopicId,
+      bookId,
+      sectionId
     });
 
     await logAdminActivity(createdBy, "mcq");
@@ -74,6 +80,8 @@ export const updateQuestionHandler = async (req: Request, res: Response) => {
     explanation,
     explanationHindi,
     tagId,
+    bookId,
+    sectionId
   } = req.body;
 
   if (!text || !options || !tagId || options.length < 4) {
@@ -104,6 +112,8 @@ export const updateQuestionHandler = async (req: Request, res: Response) => {
         explanation,
         explanationHindi,
         tagId,
+        bookId,
+        sectionId
       },
       { new: true }
     );
@@ -123,7 +133,7 @@ export const deleteQuestionHandler = async (req: Request, res: Response) => {
       res.status(200).json({ success: false, question: null });
       return;
     }
-    
+
     // Delete the question
     const deletedQuestion = await Question.deleteOne({ _id: questionId });
 
@@ -132,6 +142,65 @@ export const deleteQuestionHandler = async (req: Request, res: Response) => {
       message: "Question deleted successfully",
       question: deletedQuestion,
     });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server Error", error });
+  }
+};
+
+export const getQuestionsBySubjectIdHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const { subjectId } = req.params;
+  const { page = 1, limit = 100 } = req.query;
+  const skip = (Number(page) - 1) * Number(limit);
+  try {
+    const totalQuestions = await Question.countDocuments({ subjectId });
+    const questions = await Question.find({ subjectId })
+      .skip(skip)
+      .limit(Number(limit));
+    res
+      .status(200)
+      .json({
+        success: true,
+        data: questions,
+        totalQuestions,
+        page: Number(page),
+        limit: Number(limit),
+      });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server Error", error });
+  }
+};
+
+export const getQuestionsBySubjectTopicIdHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const { subjectTopicId } = req.params;
+  const { page = 1, limit = 30 } = req.query;
+  const skip = (Number(page) - 1) * Number(limit);
+  try {
+    const data = await SubjectTopic.aggregate([
+      { $match: { _id: new mongoose.Types.ObjectId(subjectTopicId) } },
+      {
+        $lookup: {
+          from: "questions",
+          let: { topicSubtopics: "$subTopics" },
+          pipeline: [
+            { $match: { $expr: { $in: ["$subTopicId", "$$topicSubtopics"] } } },
+          ],
+          as: "questions",
+        },
+      },
+    ])
+    .limit(Number(limit))
+    .skip(skip);
+
+    const totalQuestions = data[0]?.questions?.length || 0;
+    const questions = data[0].questions;
+
+    res.status(200).json({success: true, questions, page, totalQuestions})
   } catch (error) {
     res.status(500).json({ success: false, message: "Server Error", error });
   }

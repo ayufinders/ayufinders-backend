@@ -1,9 +1,13 @@
 import mongoose from "mongoose";
 
 const BookSectionSchema = new mongoose.Schema({
-  name: {
+  nameEng: {
     type: String,
     required: true,
+  },
+  nameHindi: {
+    type: String,
+    required: true
   },
   description: {
     type: String,
