@@ -7,7 +7,6 @@ const BookSectionSchema = new mongoose.Schema({
   },
   nameHindi: {
     type: String,
-    required: true
   },
   description: {
     type: String,
