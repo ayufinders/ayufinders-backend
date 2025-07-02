@@ -30,7 +30,7 @@ export const getBookSectionsByBookIdHandler = async (req: Request, res: Response
 
 export const addBookSectionHandler = async (req: Request, res: Response) => {
   const { nameEng, nameHindi, description, bookId } = req.body;
-  if (!nameEng || !nameHindi || !bookId) {
+  if (!nameEng || !bookId) {
     res.status(400).json({ success: false, message: "All fields are required" });
     return;
   }
