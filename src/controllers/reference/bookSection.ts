@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import BookSection from "../../models/reference/section.js";
+import Question from "../../models/question.js";
 
 export const getBookSectionsHandler = async (req: Request, res: Response) => {
   try {
@@ -27,6 +28,19 @@ export const getBookSectionsByBookIdHandler = async (req: Request, res: Response
     res.status(500).json({ success: false, message: "Server Error", error });
   }
 }; 
+
+export const getQuestionsById = async (req: Request, res: Response) => {
+  try {
+    const questions = await Question.find({sectionId: req.params.id});
+    if (!questions) {
+      res.status(404).json({ success: false, message: "Questions not found" });
+      return;
+    }
+    res.status(200).json({ success: true, data: questions });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server Error", error });
+  }
+};
 
 export const addBookSectionHandler = async (req: Request, res: Response) => {
   const { nameEng, nameHindi, description, bookId } = req.body;

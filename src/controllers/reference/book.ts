@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Book from "../../models/reference/book.js";
+import Question from "../../models/question.js";
 
 export const getBooksHandler = async (req: Request, res: Response) => {
   try {
@@ -9,6 +10,19 @@ export const getBooksHandler = async (req: Request, res: Response) => {
       return;
     }
     res.status(200).json({ success: true, data: books });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server Error", error });
+  }
+};
+
+export const getQuestionsById = async (req: Request, res: Response) => {
+  try {
+    const questions = await Question.find({bookId: req.params.id});
+    if (!questions) {
+      res.status(404).json({ success: false, message: "Questions not found" });
+      return;
+    }
+    res.status(200).json({ success: true, data: questions });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server Error", error });
   }
@@ -66,3 +80,5 @@ export const deleteBookHandler = async (req: Request, res: Response) => {
     res.status(500).json({ success: false, message: "Server Error", error });
   }
 };
+
+
