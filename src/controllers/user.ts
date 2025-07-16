@@ -2,10 +2,9 @@ import User from "../models/user.js";
 import jwt from "jsonwebtoken";
 import { userSigninSchema, userSignupSchema } from "../schema/user.js";
 import { Request, Response } from "express";
-import dotenv from "dotenv"
-dotenv.config()
-const jwtsecret = process.env.JWT_SECRET
-
+import dotenv from "dotenv";
+dotenv.config();
+const jwtsecret = process.env.JWT_SECRET;
 
 export const signinHandler = async (req: Request, res: Response) => {
   const userPayload = req.body;
@@ -38,7 +37,6 @@ export const signinHandler = async (req: Request, res: Response) => {
   }
 };
 
-
 export const signupHandler = async (req: Request, res: Response) => {
   const userPayload = req.body;
   const isValid = userSignupSchema.safeParse(userPayload);
@@ -59,10 +57,14 @@ export const signupHandler = async (req: Request, res: Response) => {
       password: userPayload.password,
     });
 
-    res.status(201).json({
-      message: "User created",
-      user: user,
-    });
+    if (user) {
+      const token = await jwt.sign({ user }, jwtsecret as string);
+      res.status(200).json({
+        message: "User signed up",
+        user: user,
+        token: token,
+      });
+    }
   } else {
     res.status(200).json({
       message: "User exists",
@@ -70,4 +72,3 @@ export const signupHandler = async (req: Request, res: Response) => {
     });
   }
 };
-
