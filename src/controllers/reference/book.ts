@@ -4,7 +4,7 @@ import Question from "../../models/question.js";
 
 export const getBooksHandler = async (req: Request, res: Response) => {
   try {
-    const books = await Book.find();
+    const books = await Book.find().sort({nameEng: 1});
     if (!books) {
       res.status(404).json({ success: false, message: "Books not found" });
       return;

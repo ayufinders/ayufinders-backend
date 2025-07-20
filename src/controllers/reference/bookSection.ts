@@ -18,7 +18,7 @@ export const getBookSectionsHandler = async (req: Request, res: Response) => {
 export const getBookSectionsByBookIdHandler = async (req: Request, res: Response) => {
   try {
     const { bookId } = req.params;
-    const sections = await BookSection.find({ bookId });
+    const sections = await BookSection.find({ bookId }).sort({nameEng: 1});
     if (!sections) {
       res.status(404).json({ success: false, message: "Sections not found" });
       return;
